@@ -69,11 +69,12 @@ public class EventListener
 
     public static void Main()
     {
-        Paths = new string[] { "gcAllocation", "gcCollection", "jitEvent" };
+        Paths = new string[] { "gcAllocation", "gcCollection", "jitEvent", "threadEvent" };
         LocalHostPath = "http://localhost:2143/";
         Client = new HttpClient();
 
-        var listener = new EventPipeBasedListener(listenForGcData: true, listenForAllocations: true, listenForJitEvents: true, PostEventData);
+        var listener = new EventPipeBasedListener(listenForGcData: true, listenForAllocations: true, listenForJitEvents: true,
+        listenForThreadEvents: true, PostEventData);
 
         var thread = new Thread(PingServer);
         thread.Start();

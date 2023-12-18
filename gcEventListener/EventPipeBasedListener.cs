@@ -32,7 +32,8 @@ public enum EventType
 {
     GcAlloc,
     GcCollection,
-    JitEvent
+    JitEvent,
+    ThreadEvent
 }
 
 public class EventPipeBasedListener
@@ -42,14 +43,13 @@ public class EventPipeBasedListener
     private bool ListenForGcData { get; set; }
     private bool ListenForAllocations { get; set; }
     private bool ListenForJitEvents { get; set; }
-
-    private bool ListenForThreadEvents {get; set;}
+    private bool ListenForThreadEvents { get; set; }
     private Dictionary<int, ProcessInfo> Processes { get; set; }
     public long ProcessId { get; set; }
     public Dictionary<int, PublishClient> PublishingClients { get; set; }
     public Action<EventType, string> EventFinishedCallback { get; set; }
 
-    public EventPipeBasedListener(bool listenForGcData, bool listenForAllocations, bool listenForJitEvents, Action<EventType, string> callback, long scopedProcessId = -1)
+    public EventPipeBasedListener(bool listenForGcData, bool listenForAllocations, bool listenForJitEvents, bool listenForThreadEvents, Action<EventType, string> callback, long scopedProcessId = -1)
     {
         this.PublishingClients = new Dictionary<int, PublishClient>();
 
@@ -65,6 +65,7 @@ public class EventPipeBasedListener
         this.ListenForAllocations = listenForAllocations;
         this.ListenForGcData = listenForGcData;
         this.ListenForJitEvents = listenForJitEvents;
+        this.ListenForThreadEvents = listenForThreadEvents;
     }
 
     public void Listen()
@@ -90,9 +91,10 @@ public class EventPipeBasedListener
 
             List<EventPipeProvider> providers = new List<EventPipeProvider>()
             {
-                new EventPipeProvider("Microsoft-Windows-DotNETRuntime", System.Diagnostics.Tracing.EventLevel.Verbose, compilationDiagnosticsKeyword | (long)ClrTraceEventParser.Keywords.Jit | (long)ClrTraceEventParser.Keywords.NGen | (long)ClrTraceEventParser.Keywords.GC | (long)ClrTraceEventParser.Keywords.Stack),
-                //new EventPipeProvider("Microsoft-Windows-DotNETRuntime", System.Diagnostics.Tracing.EventLevel.Verbose, compilationDiagnosticsKeyword | (long)ClrTraceEventParser.Keywords.Jit)
+                new EventPipeProvider("Microsoft-Windows-DotNETRuntime", System.Diagnostics.Tracing.EventLevel.Verbose, compilationDiagnosticsKeyword | (long)ClrTraceEventParser.Keywords.Jit | (long)ClrTraceEventParser.Keywords.NGen | (long)ClrTraceEventParser.Keywords.GC | (long)ClrTraceEventParser.Keywords.Stack | (long)ClrTraceEventParser.Keywords.ThreadingKeyword),
+                // new EventPipeProvider("Microsoft-Windows-DotNETRuntime", System.Diagnostics.Tracing.EventLevel.Verbose, compilationDiagnosticsKeyword | (long)ClrTraceEventParser.Keywords.Jit)
                 // new EventPipeProvider("Microsoft-Windows-DotNETRuntime", System.Diagnostics.Tracing.EventLevel.Verbose, (ulong)ClrTraceEventParser.Keywords.Stack)
+                // new EventPipeProvider("Microsoft-Windows-DotNETRuntime", System.Diagnostics.Tracing.EventLevel.Verbose, (ulong)ClrTraceEventParser.Keywords.ThreadingKeyword)
             };
 
             try
@@ -123,6 +125,29 @@ public class EventPipeBasedListener
                         source.Clr.MethodLoadVerbose += publishClient.MethodLoad;
                         source.Clr.MethodR2RGetEntryPointStart += publishClient.LoadR2RMethodStart;
                         source.Clr.MethodR2RGetEntryPoint += publishClient.LoadR2RMethodEnd;
+                    }
+
+                    if (this.ListenForThreadEvents)
+                    {
+                        source.Clr.IOThreadCreate_V1 += publishClient.OnIOThreadCreate;
+                        source.Clr.IOThreadTerminate_V1 += publishClient.OnIOThreadTerminate;
+                        source.Clr.IOThreadRetire_V1 += publishClient.OnIOThreadRetire;
+                        source.Clr.IOThreadUnretire_V1 += publishClient.OnIOThreadUnretire;
+                        source.Clr.ThreadPoolWorkerThreadStart += publishClient.OnThreadPoolWorkerThreadStart;
+                        source.Clr.ThreadPoolWorkerThreadStop += publishClient.OnThreadPoolWorkerThreadStop;
+                        source.Clr.ThreadPoolWorkerThreadWait += publishClient.OnThreadPoolWorkerThreadWait;
+                        source.Clr.ThreadPoolWorkerThreadRetirementStart += publishClient.OnThreadPoolWorkerThreadRetirementStart;
+                        source.Clr.ThreadPoolWorkerThreadRetirementStop += publishClient.OnThreadPoolWorkerThreadRetirementStop;
+                        source.Clr.ThreadPoolWorkerThreadAdjustmentSample += publishClient.OnThreadPoolWorkerThreadAdjustmentSample;
+                        source.Clr.ThreadPoolWorkerThreadAdjustmentAdjustment += publishClient.OnThreadPoolWorkerThreadAdjustmentAdjustment;
+                        source.Clr.ThreadPoolWorkerThreadAdjustmentStats += publishClient.OnThreadPoolWorkerThreadAdjustmentStats;
+                        source.Clr.ThreadPoolEnqueue += publishClient.OnThreadPoolEnqueue;
+                        source.Clr.ThreadPoolDequeue += publishClient.OnThreadPoolDequeue;
+                        source.Clr.ThreadPoolIOEnqueue += publishClient.OnThreadPoolIOEnqueue;
+                        source.Clr.ThreadPoolIODequeue += publishClient.OnThreadPoolIODequeue;
+                        source.Clr.ThreadPoolIOPack += publishClient.OnThreadPoolIOPack;
+                        source.Clr.ThreadCreating += publishClient.OnThreadCreating;
+                        source.Clr.ThreadRunning += publishClient.OnThreadRunning;
                     }
 
                     Console.WriteLine($"Started listening for: {publishClient.ProcessCommandLine}");
