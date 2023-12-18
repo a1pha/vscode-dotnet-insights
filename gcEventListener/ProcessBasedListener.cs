@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Module: EventListener.cs
+// Module: ProcessBasedListener.cs
 //
 // Notes:
 // Scope a particular event to a specific process instead of publishing
