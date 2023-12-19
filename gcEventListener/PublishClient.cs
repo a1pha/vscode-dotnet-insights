@@ -526,114 +526,114 @@ namespace DotnetInsights
         /// Thread event handlers
         ////////////////////////////////////////////////////////////////////////////////
         
-        private void OnIOThreadCreate(ThreadPoolIOWorkTraceData data) {
+        public void OnIOThreadCreate(IOThreadTraceData data) {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnIOThreadTerminate(ThreadPoolIOWorkTraceData data)
+        public void OnIOThreadTerminate(IOThreadTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnIOThreadRetire(ThreadPoolIOWorkTraceData data)
+        public void OnIOThreadRetire(IOThreadTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnIOThreadUnretire(ThreadPoolIOWorkTraceData data)
+        public void OnIOThreadUnretire(IOThreadTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadPoolWorkerThreadStart(ThreadPoolWorkingThreadCountTraceData data)
+        public void OnThreadPoolWorkerThreadStart(ThreadPoolWorkerThreadTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadPoolWorkerThreadStop(ThreadPoolWorkingThreadCountTraceData data)
+        public void OnThreadPoolWorkerThreadStop(ThreadPoolWorkerThreadTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadPoolWorkerThreadWait(ThreadPoolWorkingThreadCountTraceData data)
+        public void OnThreadPoolWorkerThreadWait(ThreadPoolWorkerThreadTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadPoolWorkerThreadRetirementStart(ThreadPoolWorkingThreadCountTraceData data)
+        public void OnThreadPoolWorkerThreadRetirementStart(ThreadPoolWorkerThreadTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadPoolWorkerThreadRetirementStop(ThreadPoolWorkingThreadCountTraceData data)
+        public void OnThreadPoolWorkerThreadRetirementStop(ThreadPoolWorkerThreadTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadPoolWorkerThreadAdjustmentSample(ThreadPoolWorkingThreadCountTraceData data)
+        public void OnThreadPoolWorkerThreadAdjustmentSample(ThreadPoolWorkerThreadAdjustmentSampleTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadPoolWorkerThreadAdjustmentAdjustment(ThreadPoolWorkingThreadCountTraceData data)
+        public void OnThreadPoolWorkerThreadAdjustmentAdjustment(ThreadPoolWorkerThreadAdjustmentTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadPoolWorkerThreadAdjustmentStats(ThreadPoolWorkingThreadCountTraceData data)
+        public void OnThreadPoolWorkerThreadAdjustmentStats(ThreadPoolWorkerThreadAdjustmentStatsTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadPoolEnqueue(ThreadPoolWorkTraceData data)
+        public void OnThreadPoolEnqueue(ThreadPoolWorkTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadPoolDequeue(ThreadPoolWorkTraceData data)
+        public void OnThreadPoolDequeue(ThreadPoolWorkTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadPoolIOEnqueue(ThreadPoolIOWorkTraceData data)
+        public void OnThreadPoolIOEnqueue(ThreadPoolIOWorkEnqueueTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadPoolIODequeue(ThreadPoolIOWorkTraceData data)
+        public void OnThreadPoolIODequeue(ThreadPoolIOWorkTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadPoolIOPack(ThreadPoolIOWorkTraceData data)
+        public void OnThreadPoolIOPack(ThreadPoolIOWorkTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadCreating(ThreadPoolWorkTraceData data)
+        public void OnThreadCreating(ThreadStartWorkTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();
         }
 
-        private void OnThreadRunning(ThreadPoolWorkTraceData data)
+        public void OnThreadRunning(ThreadStartWorkTraceData data)
         {
             // TODO: Complete this...
             throw new NotImplementedException();

@@ -91,7 +91,7 @@ public class EventPipeBasedListener
 
             List<EventPipeProvider> providers = new List<EventPipeProvider>()
             {
-                new EventPipeProvider("Microsoft-Windows-DotNETRuntime", System.Diagnostics.Tracing.EventLevel.Verbose, compilationDiagnosticsKeyword | (long)ClrTraceEventParser.Keywords.Jit | (long)ClrTraceEventParser.Keywords.NGen | (long)ClrTraceEventParser.Keywords.GC | (long)ClrTraceEventParser.Keywords.Stack | (long)ClrTraceEventParser.Keywords.ThreadingKeyword),
+                new EventPipeProvider("Microsoft-Windows-DotNETRuntime", System.Diagnostics.Tracing.EventLevel.Verbose, compilationDiagnosticsKeyword | (long)ClrTraceEventParser.Keywords.Jit | (long)ClrTraceEventParser.Keywords.NGen | (long)ClrTraceEventParser.Keywords.GC | (long)ClrTraceEventParser.Keywords.Stack | (long)ClrTraceEventParser.Keywords.Threading),
                 // new EventPipeProvider("Microsoft-Windows-DotNETRuntime", System.Diagnostics.Tracing.EventLevel.Verbose, compilationDiagnosticsKeyword | (long)ClrTraceEventParser.Keywords.Jit)
                 // new EventPipeProvider("Microsoft-Windows-DotNETRuntime", System.Diagnostics.Tracing.EventLevel.Verbose, (ulong)ClrTraceEventParser.Keywords.Stack)
                 // new EventPipeProvider("Microsoft-Windows-DotNETRuntime", System.Diagnostics.Tracing.EventLevel.Verbose, (ulong)ClrTraceEventParser.Keywords.ThreadingKeyword)
@@ -129,10 +129,10 @@ public class EventPipeBasedListener
 
                     if (this.ListenForThreadEvents)
                     {
-                        source.Clr.IOThreadCreate_V1 += publishClient.OnIOThreadCreate;
-                        source.Clr.IOThreadTerminate_V1 += publishClient.OnIOThreadTerminate;
-                        source.Clr.IOThreadRetire_V1 += publishClient.OnIOThreadRetire;
-                        source.Clr.IOThreadUnretire_V1 += publishClient.OnIOThreadUnretire;
+                        source.Clr.IOThreadCreationStart += publishClient.OnIOThreadCreate;
+                        source.Clr.IOThreadCreationStop += publishClient.OnIOThreadTerminate;
+                        source.Clr.IOThreadRetirementStart += publishClient.OnIOThreadRetire;
+                        source.Clr.IOThreadRetirementStop += publishClient.OnIOThreadUnretire;
                         source.Clr.ThreadPoolWorkerThreadStart += publishClient.OnThreadPoolWorkerThreadStart;
                         source.Clr.ThreadPoolWorkerThreadStop += publishClient.OnThreadPoolWorkerThreadStop;
                         source.Clr.ThreadPoolWorkerThreadWait += publishClient.OnThreadPoolWorkerThreadWait;
